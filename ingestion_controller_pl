@@ -1,0 +1,92 @@
+{
+    "name": "ingestion_controller_pl",
+    "properties": {
+        "activities": [
+            {
+                "name": "Switch1",
+                "type": "Switch",
+                "dependsOn": [],
+                "userProperties": [],
+                "typeProperties": {
+                    "on": {
+                        "value": "@string(pipeline().parameters.Source_id)",
+                        "type": "Expression"
+                    },
+                    "cases": [
+                        {
+                            "value": "1",
+                            "activities": [
+                                {
+                                    "name": "Execute Pipeline1",
+                                    "type": "ExecutePipeline",
+                                    "dependsOn": [],
+                                    "userProperties": [],
+                                    "typeProperties": {
+                                        "pipeline": {
+                                            "referenceName": "Azuresql_ingestion_pl",
+                                            "type": "PipelineReference"
+                                        },
+                                        "waitOnCompletion": true,
+                                        "parameters": {
+                                            "Sink_foldername": "dsdsdsdsdsd"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "value": "2",
+                            "activities": [
+                                {
+                                    "name": "Execute Pipeline2",
+                                    "type": "ExecutePipeline",
+                                    "dependsOn": [],
+                                    "userProperties": [],
+                                    "typeProperties": {
+                                        "pipeline": {
+                                            "referenceName": "Blob ingestion_pl",
+                                            "type": "PipelineReference"
+                                        },
+                                        "waitOnCompletion": true,
+                                        "parameters": {
+                                            "Sink_foldername": "output_in_avro_from_blob"
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "value": "3",
+                            "activities": [
+                                {
+                                    "name": "Execute Pipeline3",
+                                    "type": "ExecutePipeline",
+                                    "dependsOn": [],
+                                    "userProperties": [],
+                                    "typeProperties": {
+                                        "pipeline": {
+                                            "referenceName": "FTP_ingestion_pl",
+                                            "type": "PipelineReference"
+                                        },
+                                        "waitOnCompletion": true,
+                                        "parameters": {
+                                            "Sink_foldername": "output_in_avro_from_FTP"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "parameters": {
+            "Source_id": {
+                "type": "int"
+            }
+        },
+        "annotations": [],
+        "lastPublishTime": "2023-07-22T06:58:05Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}
