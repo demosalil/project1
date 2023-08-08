@@ -1,0 +1,12 @@
+{
+	"name": "DS_mysql_src",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_mysql_src_lookup",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": []
+	}
+}
