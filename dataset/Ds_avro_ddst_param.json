@@ -1,0 +1,31 @@
+{
+	"name": "Ds_avro_ddst_param",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_adls_dst_param",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"foldername": {
+				"type": "string"
+			},
+			"Filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Avro",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().Filename",
+					"type": "Expression"
+				},
+				"folderPath": "blob_to_adlsgen2",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {}
+	}
+}
