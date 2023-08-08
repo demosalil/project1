@@ -22,7 +22,10 @@
 					"value": "@dataset().Filename",
 					"type": "Expression"
 				},
-				"folderPath": "blob_to_adlsgen2",
+				"folderPath": {
+					"value": "@dataset().foldername",
+					"type": "Expression"
+				},
 				"fileSystem": "raw"
 			}
 		},
