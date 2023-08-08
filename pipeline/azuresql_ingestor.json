@@ -1,5 +1,5 @@
 {
-	"name": "azuresql_to_adlsgen2",
+	"name": "azuresql_ingestor",
 	"properties": {
 		"activities": [
 			{
