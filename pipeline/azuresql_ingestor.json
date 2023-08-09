@@ -235,12 +235,8 @@
 					}
 				},
 				"linkedServiceName": {
-					"referenceName": "Ls_azuresql_src",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"Server_name": "projsqlserver.database.windows.net",
-						"Db_name": "metadata_db"
-					}
+					"referenceName": "Ls_azuresql_sp_src",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
