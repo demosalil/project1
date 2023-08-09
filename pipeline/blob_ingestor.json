@@ -194,7 +194,51 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[SP_log_table]"
+					"storedProcedureName": "[dbo].[SP_log_table]",
+					"storedProcedureParameters": {
+						"Endtime": {
+							"value": {
+								"value": "@{formatDateTime(variables('End_time'),'yyyy-MM-dd HH:mm:ss')}",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PL_name": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PL_runid": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PL_triggertime": {
+							"value": {
+								"value": "@{formatDateTime(pipeline().TriggerTime,'yyyy-MM-dd HH:mm:ss')}",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"PL_triggertype": {
+							"value": {
+								"value": "@pipeline().TriggerType",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Starttime": {
+							"value": {
+								"value": "@{formatDateTime(variables('Start_time'),'yyyy-MM-dd HH:mm:ss')}\n",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
 				},
 				"linkedServiceName": {
 					"referenceName": "Ls_azuresql_sp_src",
