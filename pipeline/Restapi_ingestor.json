@@ -5,7 +5,14 @@
 			{
 				"name": "Web1",
 				"type": "WebActivity",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Start_time",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -102,11 +109,131 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Start_time",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Start_time",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "endtime",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "End_time",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Stored procedure1",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "endtime",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[SP_log_table]",
+					"storedProcedureParameters": {
+						"Endtime": {
+							"value": {
+								"value": "@{formatDateTime(variables('End_time'),'yyyy-MM-dd HH:mm:ss')}",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PL_name": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PL_runid": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"PL_triggertime": {
+							"value": {
+								"value": "@{formatDateTime(pipeline().TriggerTime,'yyyy-MM-dd HH:mm:ss')}",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"PL_triggertype": {
+							"value": {
+								"value": "@pipeline().TriggerType",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Starttime": {
+							"value": {
+								"value": "@{formatDateTime(variables('Start_time'),'yyyy-MM-dd HH:mm:ss')}",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Ls_azuresql_sp_src",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"parameters": {
 			"Sink_foldername": {
 				"type": "string"
+			}
+		},
+		"variables": {
+			"Start_time": {
+				"type": "String"
+			},
+			"End_time": {
+				"type": "String"
 			}
 		},
 		"annotations": []
