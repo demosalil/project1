@@ -247,6 +247,9 @@
 				"type": "String"
 			}
 		},
+		"folder": {
+			"name": "Ingestion_folder"
+		},
 		"annotations": []
 	}
 }
