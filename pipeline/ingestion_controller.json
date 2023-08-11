@@ -8,10 +8,47 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
-					"cases": []
+					"on": {
+						"value": "@pipeline().parameters.Source_name",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "blob_storage",
+							"activities": [
+								{
+									"name": "Execute Pipeline1",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "blob_ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Sink_foldername": "sfsdfds"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": ""
+						},
+						{
+							"value": "Case3"
+						}
+					]
 				}
 			}
 		],
+		"parameters": {
+			"Source_name": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
