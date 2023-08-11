@@ -5,8 +5,7 @@
 			"referenceName": "Ls_azuresql_src",
 			"type": "LinkedServiceReference",
 			"parameters": {
-				"Server_name": "projsqlserver.database.windows.net",
-				"Db_name": "prosqldb"
+				"Server_name": "projsqlserver.database.windows.net"
 			}
 		},
 		"annotations": [],
