@@ -77,7 +77,7 @@
 							]
 						},
 						{
-							"value": "Rest_api",
+							"value": "mysql",
 							"activities": [
 								{
 									"name": "Execute Pipeline4",
@@ -86,12 +86,12 @@
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
-											"referenceName": "Restapi_ingestor",
+											"referenceName": "mysql_ingestor",
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": true,
 										"parameters": {
-											"Sink_foldername": "restapi_to_adlsgen2"
+											"Sink_foldername": "mysql_to_adlsgen2"
 										}
 									}
 								}
