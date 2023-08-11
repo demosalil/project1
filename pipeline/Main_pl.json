@@ -71,7 +71,7 @@
 					"isSequential": true,
 					"activities": [
 						{
-							"name": "Execute Pipeline1",
+							"name": "call ingestion controller",
 							"type": "ExecutePipeline",
 							"dependsOn": [],
 							"userProperties": [],
@@ -80,7 +80,13 @@
 									"referenceName": "ingestion_controller",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true
+								"waitOnCompletion": true,
+								"parameters": {
+									"Source_name": {
+										"value": "@item().Source_name",
+										"type": "Expression"
+									}
+								}
 							}
 						}
 					]

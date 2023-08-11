@@ -26,19 +26,13 @@
 											"referenceName": "blob_ingestor",
 											"type": "PipelineReference"
 										},
-										"waitOnCompletion": true,
+										"waitOnCompletion": false,
 										"parameters": {
 											"Sink_foldername": "sfsdfds"
 										}
 									}
 								}
 							]
-						},
-						{
-							"value": ""
-						},
-						{
-							"value": "Case3"
 						}
 					]
 				}
