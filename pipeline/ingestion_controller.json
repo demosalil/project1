@@ -77,10 +77,39 @@
 							]
 						},
 						{
-							"value": "Rest_api"
+							"value": "Rest_api",
+							"activities": [
+								{
+									"name": "Execute Pipeline4",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "Restapi_ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Sink_foldername": "restapi_to_adlsgen2"
+										}
+									}
+								}
+							]
 						},
 						{
-							"value": "snowflake"
+							"value": "snowflake",
+							"activities": [
+								{
+									"name": "Wait1",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 1
+									}
+								}
+							]
 						}
 					]
 				}
