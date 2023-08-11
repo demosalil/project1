@@ -33,6 +33,54 @@
 									}
 								}
 							]
+						},
+						{
+							"value": "azure_sql",
+							"activities": [
+								{
+									"name": "Execute Pipeline2",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "azuresql_ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Sink_foldername": "azuresql_to_adlsgen2"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "ftp_server",
+							"activities": [
+								{
+									"name": "Execute Pipeline3",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "ftp_ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Sink_foldername": "ftp_to_adlsgen2"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "Rest_api"
+						},
+						{
+							"value": "snowflake"
 						}
 					]
 				}
