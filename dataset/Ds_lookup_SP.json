@@ -1,0 +1,12 @@
+{
+	"name": "Ds_lookup_SP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_lookup_SP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
