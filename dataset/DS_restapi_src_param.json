@@ -1,0 +1,23 @@
+{
+	"name": "DS_restapi_src_param",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_restapi_src_param",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"relativeurl": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@dataset().relativeurl",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	}
+}

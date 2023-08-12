@@ -1,0 +1,125 @@
+{
+	"name": "ingestion_controller",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch1",
+				"type": "Switch",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.Source_name",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "blob_storage",
+							"activities": [
+								{
+									"name": "Exec_blob",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "blob_ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": false,
+										"parameters": {
+											"Sink_foldername": "sfsdfds"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "azure_sql",
+							"activities": [
+								{
+									"name": "Exec_azuresql",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "azuresql_ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Sink_foldername": "azuresql_to_adlsgen2"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "ftp_server",
+							"activities": [
+								{
+									"name": "Exec_ftp",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "ftp_ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Sink_foldername": "ftp_to_adlsgen2"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "mysql",
+							"activities": [
+								{
+									"name": "Exec_mysql",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "mysql_ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"Sink_foldername": "mysql_to_adlsgen2"
+										}
+									}
+								}
+							]
+						},
+						{
+							"value": "snowflake",
+							"activities": [
+								{
+									"name": "Wait1",
+									"type": "Wait",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"waitTimeInSeconds": 1
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"Source_name": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

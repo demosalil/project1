@@ -1,0 +1,20 @@
+{
+	"name": "Ls_azuresql_src",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"Server_name": {
+				"type": "string"
+			},
+			"Db_name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=@{linkedService().Server_name};initial catalog=@{linkedService().Db_name};user id=dp900",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQENDMTY1NzFBLTM3QzctNEEwRC1CQTQ0LTFBOEJBNjdENzA3Ql8zN2RlOGFjMy0yOTM2LTQ4YWQtYTk1ZS1iNWRkNTI1OTA5MTUiDQp9"
+		}
+	}
+}

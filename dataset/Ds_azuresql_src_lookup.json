@@ -1,0 +1,15 @@
+{
+	"name": "Ds_azuresql_src_lookup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_azuresql_src",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"Server_name": "projsqlserver.database.windows.net"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

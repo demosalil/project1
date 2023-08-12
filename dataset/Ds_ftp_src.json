@@ -1,0 +1,22 @@
+{
+	"name": "Ds_ftp_src",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_ftp_src",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FtpServerLocation",
+				"folderPath": "dummy FTP"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
