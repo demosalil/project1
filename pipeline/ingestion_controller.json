@@ -17,7 +17,7 @@
 							"value": "blob_storage",
 							"activities": [
 								{
-									"name": "Execute Pipeline1",
+									"name": "Exec_blob",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
 									"userProperties": [],
@@ -38,7 +38,7 @@
 							"value": "azure_sql",
 							"activities": [
 								{
-									"name": "Execute Pipeline2",
+									"name": "Exec_azuresql",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
 									"userProperties": [],
@@ -59,7 +59,7 @@
 							"value": "ftp_server",
 							"activities": [
 								{
-									"name": "Execute Pipeline3",
+									"name": "Exec_ftp",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
 									"userProperties": [],
@@ -80,7 +80,7 @@
 							"value": "mysql",
 							"activities": [
 								{
-									"name": "Execute Pipeline4",
+									"name": "Exec_mysql",
 									"type": "ExecutePipeline",
 									"dependsOn": [],
 									"userProperties": [],
