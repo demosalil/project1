@@ -1,5 +1,5 @@
 {
-	"name": "trigger1",
+	"name": "trigger_azuresql",
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
@@ -22,7 +22,7 @@
 				"frequency": "Minute",
 				"interval": 1,
 				"startTime": "2023-08-12T11:00:00",
-				"endTime": "2023-08-13T11:02:00",
+				"endTime": "2023-08-12T11:02:00",
 				"timeZone": "India Standard Time"
 			}
 		}
