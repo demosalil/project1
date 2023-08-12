@@ -1,0 +1,41 @@
+{
+	"name": "trigger_mysql",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Main_pl",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"Datagroup": "Crime",
+					"Source_name": "mysql",
+					"Source_id": "4"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "Main_pl",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"Datagroup": "Crime",
+					"Source_name": "mysql",
+					"Source_id": "4"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2023-08-12T11:00:00",
+				"endTime": "2023-08-12T11:02:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
