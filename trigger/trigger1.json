@@ -1,0 +1,30 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Main_pl",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"Datagroup": "Crime",
+					"Source_name": "azure_sql",
+					"Source_id": "Crime"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2023-08-12T11:00:00",
+				"endTime": "2023-08-13T11:02:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
