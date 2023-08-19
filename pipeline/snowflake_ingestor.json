@@ -1,0 +1,9 @@
+{
+	"name": "snowflake_ingestor",
+	"properties": {
+		"folder": {
+			"name": "Ingestion_folder"
+		},
+		"annotations": []
+	}
+}
