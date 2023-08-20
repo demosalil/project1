@@ -1,0 +1,51 @@
+{
+	"name": "main_pl",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingestion_master",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"Datagroup": {
+							"value": "@pipeline().parameters.DataGroup",
+							"type": "Expression"
+						},
+						"Source_name": {
+							"value": "@pipeline().parameters.SourceName",
+							"type": "Expression"
+						},
+						"Source_id": {
+							"value": "@pipeline().parameters.Source_id",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"SourceName": {
+				"type": "string"
+			},
+			"DataGroup": {
+				"type": "string"
+			},
+			"Source_id": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"get_foldername": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	}
+}
