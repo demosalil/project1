@@ -6,7 +6,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "Main_pl",
+					"referenceName": "Ingestion_master",
 					"type": "PipelineReference"
 				},
 				"parameters": {
