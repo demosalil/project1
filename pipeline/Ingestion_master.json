@@ -92,6 +92,18 @@
 									"Source_name": {
 										"value": "@item().Source_name",
 										"type": "Expression"
+									},
+									"TableName": {
+										"value": "@item().table_name",
+										"type": "Expression"
+									},
+									"Query": {
+										"value": "@item().full_query",
+										"type": "Expression"
+									},
+									"foldername": {
+										"value": "@item().folder_name",
+										"type": "Expression"
 									}
 								}
 							}
@@ -157,7 +169,7 @@
 							"type": "String"
 						},
 						"End_time": {
-							"value": "",
+							"value": null,
 							"type": "DateTime"
 						},
 						"Pipeline_name": {
@@ -175,10 +187,7 @@
 							"type": "String"
 						},
 						"Start_time": {
-							"value": {
-								"value": "@{formatDateTime(variables('Start_time'),'yyyy-MM-dd HH:mm:ss')}",
-								"type": "Expression"
-							},
+							"value": null,
 							"type": "DateTime"
 						},
 						"Status": {
@@ -212,133 +221,6 @@
 					"referenceName": "Ls_lookup_SP",
 					"type": "LinkedServiceReference"
 				}
-			},
-			{
-				"name": "end_time",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "ForEach1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "end_time",
-					"value": {
-						"value": "@utcnow()",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "SP_Log_Master_update",
-				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "end_time",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[dbo].[SP_log_schema_Update]",
-					"storedProcedureParameters": {
-						"ADF_pipeline_run_id": {
-							"value": {
-								"value": "@pipeline().RunId",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Datagroup": {
-							"value": {
-								"value": "@pipeline().parameters.Datagroup",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Datasetlist": {
-							"value": {
-								"value": "@pipeline().parameters.Source_id",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"End_time": {
-							"value": {
-								"value": "@{formatDateTime(variables('end_time'),'yyyy-MM-dd HH:mm:ss')}",
-								"type": "Expression"
-							},
-							"type": "DateTime"
-						},
-						"Pipeline_name": {
-							"value": {
-								"value": "@pipeline().Pipeline",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Source_name": {
-							"value": {
-								"value": "@pipeline().parameters.Source_name",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Start_time": {
-							"value": {
-								"value": "@{formatDateTime(variables('Start_time'),'yyyy-MM-dd HH:mm:ss')}",
-								"type": "Expression"
-							},
-							"type": "DateTime"
-						},
-						"Status": {
-							"value": "success",
-							"type": "String"
-						},
-						"Trigger_id": {
-							"value": {
-								"value": "@pipeline().TriggerId",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Trigger_name": {
-							"value": {
-								"value": "@pipeline().TriggerName",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Trigger_start_Date": {
-							"value": {
-								"value": "@utcnow()",
-								"type": "Expression"
-							},
-							"type": "DateTime"
-						}
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "Ls_lookup_SP",
-					"type": "LinkedServiceReference"
-				}
 			}
 		],
 		"parameters": {
@@ -357,6 +239,12 @@
 				"type": "String"
 			},
 			"end_time": {
+				"type": "String"
+			},
+			"status": {
+				"type": "String"
+			},
+			"record_count": {
 				"type": "String"
 			}
 		},
