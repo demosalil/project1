@@ -1,0 +1,312 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "traildf900"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureBlobStorageldsss_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorageldsss'"
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
+		"LS_ftp_src_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_ftp_src'"
+		},
+		"Ls_avro_dst_param_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'Ls_avro_dst_param'"
+		},
+		"Ls_azuresql_src_param_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Ls_azuresql_src_param'"
+		},
+		"Ls_blob_restapi_dst_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Ls_blob_restapi_dst'"
+		},
+		"Ls_emial_src_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Ls_emial_src'"
+		},
+		"Ls_layer_azuresql_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Ls_layer_azuresql'"
+		},
+		"Ls_mappn_src_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Ls_mappn_src'"
+		},
+		"Ls_mysql_src_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Ls_mysql_src'"
+		},
+		"Ls_sql_dst_watermrk_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Ls_sql_dst_watermrk'"
+		},
+		"Ls_trial_sp_log_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Ls_trial_sp_log'"
+		},
+		"SP_LinkedService_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SP_LinkedService'"
+		},
+		"SQLDB_LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SQLDB_LS'"
+		},
+		"SQL_TO_ADLS_LS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'SQL_TO_ADLS_LS'"
+		},
+		"snowflake_Connectionstring_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'snowflake_Connectionstring'"
+		},
+		"LS_ftp_src_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "ftpupload.net"
+		},
+		"LS_ftp_src_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "if0_34491274"
+		},
+		"Ls_avro_dst_param_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsproj1.dfs.core.windows.net/"
+		},
+		"Ls_restapi_src_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://reqres.in/api/users"
+		},
+		"SQL_TO_ADLS_LS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://traillandingzone.dfs.core.windows.net/"
+		},
+		"blob_connectionstring_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 'blob_connectionstring'"
+		},
+		"trig_azuresql_properties_main_pl_parameters_SourceName": {
+			"type": "string",
+			"defaultValue": "azure_sql"
+		},
+		"trig_azuresql_properties_main_pl_parameters_DataGroup": {
+			"type": "string",
+			"defaultValue": "Crime"
+		},
+		"trig_azuresql_properties_main_pl_parameters_DataSetList": {
+			"type": "string",
+			"defaultValue": "2"
+		},
+		"trig_blob_properties_main_pl_parameters_SourceName": {
+			"type": "string",
+			"defaultValue": "blob_storage"
+		},
+		"trig_blob_properties_main_pl_parameters_DataGroup": {
+			"type": "string",
+			"defaultValue": "Country"
+		},
+		"trig_blob_properties_main_pl_parameters_DataSetList": {
+			"type": "string",
+			"defaultValue": "1"
+		},
+		"trigger1_properties_azuresql_to_adlsgen2_parameters_Sink_foldername": {
+			"type": "string",
+			"defaultValue": "azuresql_to_adlsgen2"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "traildf900_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"AzureBlobStorageldsss_connectionString": {
+						"value": "[parameters('AzureBlobStorageldsss_connectionString')]"
+					},
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
+					},
+					"LS_ftp_src_password": {
+						"value": "[parameters('LS_ftp_src_password')]"
+					},
+					"Ls_avro_dst_param_accountKey": {
+						"value": "[parameters('Ls_avro_dst_param_accountKey')]"
+					},
+					"Ls_azuresql_src_param_connectionString": {
+						"value": "[parameters('Ls_azuresql_src_param_connectionString')]"
+					},
+					"Ls_blob_restapi_dst_connectionString": {
+						"value": "[parameters('Ls_blob_restapi_dst_connectionString')]"
+					},
+					"Ls_emial_src_connectionString": {
+						"value": "[parameters('Ls_emial_src_connectionString')]"
+					},
+					"Ls_layer_azuresql_connectionString": {
+						"value": "[parameters('Ls_layer_azuresql_connectionString')]"
+					},
+					"Ls_mappn_src_connectionString": {
+						"value": "[parameters('Ls_mappn_src_connectionString')]"
+					},
+					"Ls_mysql_src_connectionString": {
+						"value": "[parameters('Ls_mysql_src_connectionString')]"
+					},
+					"Ls_sql_dst_watermrk_connectionString": {
+						"value": "[parameters('Ls_sql_dst_watermrk_connectionString')]"
+					},
+					"Ls_trial_sp_log_connectionString": {
+						"value": "[parameters('Ls_trial_sp_log_connectionString')]"
+					},
+					"SP_LinkedService_connectionString": {
+						"value": "[parameters('SP_LinkedService_connectionString')]"
+					},
+					"SQLDB_LS_connectionString": {
+						"value": "[parameters('SQLDB_LS_connectionString')]"
+					},
+					"SQL_TO_ADLS_LS_accountKey": {
+						"value": "[parameters('SQL_TO_ADLS_LS_accountKey')]"
+					},
+					"snowflake_Connectionstring_connectionString": {
+						"value": "[parameters('snowflake_Connectionstring_connectionString')]"
+					},
+					"LS_ftp_src_properties_typeProperties_host": {
+						"value": "[parameters('LS_ftp_src_properties_typeProperties_host')]"
+					},
+					"LS_ftp_src_properties_typeProperties_userName": {
+						"value": "[parameters('LS_ftp_src_properties_typeProperties_userName')]"
+					},
+					"Ls_avro_dst_param_properties_typeProperties_url": {
+						"value": "[parameters('Ls_avro_dst_param_properties_typeProperties_url')]"
+					},
+					"Ls_restapi_src_properties_typeProperties_url": {
+						"value": "[parameters('Ls_restapi_src_properties_typeProperties_url')]"
+					},
+					"SQL_TO_ADLS_LS_properties_typeProperties_url": {
+						"value": "[parameters('SQL_TO_ADLS_LS_properties_typeProperties_url')]"
+					},
+					"blob_connectionstring_sasUri": {
+						"value": "[parameters('blob_connectionstring_sasUri')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "traildf900_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'traildf900_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "traildf900_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'traildf900_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "traildf900_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"trigger1_properties_azuresql_to_adlsgen2_parameters_Sink_foldername": {
+						"value": "[parameters('trigger1_properties_azuresql_to_adlsgen2_parameters_Sink_foldername')]"
+					},
+					"trig_azuresql_properties_main_pl_parameters_SourceName": {
+						"value": "[parameters('trig_azuresql_properties_main_pl_parameters_SourceName')]"
+					},
+					"trig_azuresql_properties_main_pl_parameters_DataGroup": {
+						"value": "[parameters('trig_azuresql_properties_main_pl_parameters_DataGroup')]"
+					},
+					"trig_azuresql_properties_main_pl_parameters_DataSetList": {
+						"value": "[parameters('trig_azuresql_properties_main_pl_parameters_DataSetList')]"
+					},
+					"trig_blob_properties_main_pl_parameters_SourceName": {
+						"value": "[parameters('trig_blob_properties_main_pl_parameters_SourceName')]"
+					},
+					"trig_blob_properties_main_pl_parameters_DataGroup": {
+						"value": "[parameters('trig_blob_properties_main_pl_parameters_DataGroup')]"
+					},
+					"trig_blob_properties_main_pl_parameters_DataSetList": {
+						"value": "[parameters('trig_blob_properties_main_pl_parameters_DataSetList')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'traildf900_ArmTemplate_2')]"
+			]
+		}
+	]
+}

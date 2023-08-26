@@ -5,7 +5,14 @@
 			{
 				"name": "Switch1",
 				"type": "Switch",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "SP_insert_log_detial_controller_level",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"on": {
@@ -31,93 +38,340 @@
 											"Sink_foldername": "sfsdfds"
 										}
 									}
-								}
-							]
-						},
-						{
-							"value": "azure_sql",
-							"activities": [
+								},
 								{
-									"name": "Exec_azuresql",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
+									"name": "SP_log_schema_Pl_level_update",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "set var_status",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										},
+										{
+											"activity": "set_REcord_count",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
-										"pipeline": {
-											"referenceName": "azuresql_ingestor",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"Sink_foldername": "azuresql_to_adlsgen2"
+										"storedProcedureName": "[dbo].[SP_log_schema_PL_level_update]",
+										"storedProcedureParameters": {
+											"ADF_pipeline_run_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Databrick_exec_time": {
+												"value": null,
+												"type": "String"
+											},
+											"Databrick_url": {
+												"value": null,
+												"type": "String"
+											},
+											"Dataset_name": {
+												"value": null,
+												"type": "String"
+											},
+											"End_date": {
+												"value": {
+													"value": "@utcnow()",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"End_time": {
+												"value": {
+													"value": "@utcnow()",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"Error_message": {
+												"value": null,
+												"type": "String"
+											},
+											"Fire_command": {
+												"value": null,
+												"type": "String"
+											},
+											"From_layer_id": {
+												"value": null,
+												"type": "Int32"
+											},
+											"Ingestor_name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Landing_file_name": {
+												"value": null,
+												"type": "String"
+											},
+											"Record_count": {
+												"value": {
+													"value": "@string(activity('Exec_blob').output.pipelineReturnValue.filesWritten)",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Source_name": {
+												"value": {
+													"value": "@pipeline().parameters.Source_name",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Start_date": {
+												"value": {
+													"value": "@utcnow()",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"Start_time": {
+												"value": {
+													"value": "@utcnow()",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"STATUS": {
+												"value": {
+													"value": "@activity('Exec_blob').output.pipelineReturnValue.status",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"To_layer_id": {
+												"value": null,
+												"type": "Int32"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "Ls_lookup_SP",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "set var_status",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Exec_blob",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "status",
+										"value": {
+											"value": "@activity('Exec_blob').output.pipelineReturnValue.status",
+											"type": "Expression"
 										}
 									}
-								}
-							]
-						},
-						{
-							"value": "ftp_server",
-							"activities": [
+								},
 								{
-									"name": "Exec_ftp",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"pipeline": {
-											"referenceName": "ftp_ingestor",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"Sink_foldername": "ftp_to_adlsgen2"
+									"name": "set_REcord_count",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Exec_blob",
+											"dependencyConditions": [
+												"Succeeded"
+											]
 										}
-									}
-								}
-							]
-						},
-						{
-							"value": "mysql",
-							"activities": [
-								{
-									"name": "Exec_mysql",
-									"type": "ExecutePipeline",
-									"dependsOn": [],
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
 									"userProperties": [],
 									"typeProperties": {
-										"pipeline": {
-											"referenceName": "mysql_ingestor",
-											"type": "PipelineReference"
-										},
-										"waitOnCompletion": true,
-										"parameters": {
-											"Sink_foldername": "mysql_to_adlsgen2"
+										"variableName": "record_count",
+										"value": {
+											"value": "@string(activity('Exec_blob').output.pipelineReturnValue.filesWritten)",
+											"type": "Expression"
 										}
-									}
-								}
-							]
-						},
-						{
-							"value": "snowflake",
-							"activities": [
-								{
-									"name": "Wait1",
-									"type": "Wait",
-									"dependsOn": [],
-									"userProperties": [],
-									"typeProperties": {
-										"waitTimeInSeconds": 1
 									}
 								}
 							]
 						}
 					]
 				}
+			},
+			{
+				"name": "start_time",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "start_time",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "SP_insert_log_detial_controller_level",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "start_time",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[SP_log_schema_PL_level_insert]",
+					"storedProcedureParameters": {
+						"ADF_pipeline_run_id": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Databrick_exec_time": {
+							"value": null,
+							"type": "String"
+						},
+						"Databrick_url": {
+							"value": null,
+							"type": "String"
+						},
+						"Dataset_name": {
+							"value": {
+								"value": "@pipeline().parameters.TableName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"End_date": {
+							"value": null,
+							"type": "DateTime"
+						},
+						"End_time": {
+							"value": null,
+							"type": "DateTime"
+						},
+						"Error_message": {
+							"value": null,
+							"type": "String"
+						},
+						"Fire_command": {
+							"value": null,
+							"type": "String"
+						},
+						"From_layer_id": {
+							"value": null,
+							"type": "Int32"
+						},
+						"Ingestor_name": {
+							"value": null,
+							"type": "String"
+						},
+						"Landing_file_name": {
+							"value": null,
+							"type": "String"
+						},
+						"Record_count": {
+							"value": "",
+							"type": "Int32"
+						},
+						"Source_name": {
+							"value": {
+								"value": "@pipeline().parameters.Source_name",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Start_date": {
+							"value": {
+								"value": "@variables('start_time')",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"Start_time": {
+							"value": null,
+							"type": "DateTime"
+						},
+						"STATUS": {
+							"value": null,
+							"type": "String"
+						},
+						"To_layer_id": {
+							"value": null,
+							"type": "Int32"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Ls_lookup_SP",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"parameters": {
 			"Source_name": {
 				"type": "string"
+			},
+			"TableName": {
+				"type": "string"
+			},
+			"Query": {
+				"type": "string"
+			},
+			"foldername": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"start_time": {
+				"type": "String"
+			},
+			"status": {
+				"type": "String"
+			},
+			"record_count": {
+				"type": "String"
 			}
 		},
 		"annotations": []

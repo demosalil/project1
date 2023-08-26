@@ -1,0 +1,19 @@
+{
+	"name": "blob_desti_src_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_blob_src",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Avro",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "snowflake_to_blob",
+				"container": "rawblob"
+			}
+		},
+		"schema": []
+	}
+}

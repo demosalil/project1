@@ -5,14 +5,7 @@
 			{
 				"name": "Get Metadata1",
 				"type": "GetMetadata",
-				"dependsOn": [
-					{
-						"activity": "Starttime",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
+				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -129,120 +122,52 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "getn_errors_status",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "pipelineReturnValue",
+								"value": [
+									{
+										"key": "errors",
+										"value": {
+											"type": "Expression",
+											"content": "@activity('Copy data1').output.errors"
+										}
+									},
+									{
+										"key": "status",
+										"value": {
+											"type": "Expression",
+											"content": "@activity('Copy data1').output.executionDetails[0].status"
+										}
+									},
+									{
+										"key": "filesWritten",
+										"value": {
+											"type": "Expression",
+											"content": "@activity('Copy data1').output.filesWritten"
+										}
+									}
+								],
+								"setSystemVariable": true
+							}
 						}
 					]
-				}
-			},
-			{
-				"name": "Starttime",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "Start_time",
-					"value": {
-						"value": "@utcnow()",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Endtime",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "ForEach1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "End_time",
-					"value": {
-						"value": "@utcnow()",
-						"type": "Expression"
-					}
-				}
-			},
-			{
-				"name": "Stored procedure1",
-				"type": "SqlServerStoredProcedure",
-				"dependsOn": [
-					{
-						"activity": "Endtime",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"storedProcedureName": "[dbo].[SP_log_table]",
-					"storedProcedureParameters": {
-						"Endtime": {
-							"value": {
-								"value": "@{formatDateTime(variables('End_time'),'yyyy-MM-dd HH:mm:ss')}",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"PL_name": {
-							"value": {
-								"value": "@pipeline().Pipeline",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"PL_runid": {
-							"value": {
-								"value": "@pipeline().RunId",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"PL_triggertime": {
-							"value": {
-								"value": "@{formatDateTime(pipeline().TriggerTime,'yyyy-MM-dd HH:mm:ss')}",
-								"type": "Expression"
-							},
-							"type": "DateTime"
-						},
-						"PL_triggertype": {
-							"value": {
-								"value": "@pipeline().TriggerType",
-								"type": "Expression"
-							},
-							"type": "String"
-						},
-						"Starttime": {
-							"value": {
-								"value": "@{formatDateTime(variables('Start_time'),'yyyy-MM-dd HH:mm:ss')}\n",
-								"type": "Expression"
-							},
-							"type": "String"
-						}
-					}
-				},
-				"linkedServiceName": {
-					"referenceName": "Ls_azuresql_sp_src",
-					"type": "LinkedServiceReference"
 				}
 			}
 		],
