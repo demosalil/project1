@@ -1,0 +1,28 @@
+{
+	"name": "Ds_mysql_src_param",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_mysql_src",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"mysql_Server_name": "mysqlproj1.mysql.database.azure.com",
+				"mysql_dbName": "mysqldb"
+			}
+		},
+		"parameters": {
+			"tablename_ds": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureMySqlTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": {
+				"value": "@dataset().tablename_ds",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

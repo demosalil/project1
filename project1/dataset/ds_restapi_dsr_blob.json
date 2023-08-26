@@ -1,0 +1,25 @@
+{
+	"name": "ds_restapi_dsr_blob",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_blob_restapi_dst",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "restapi.csv",
+				"folderPath": "restapi_to_blob",
+				"container": "rawblob"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

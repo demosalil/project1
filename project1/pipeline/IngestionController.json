@@ -1,0 +1,422 @@
+{
+	"name": "IngestionController",
+	"properties": {
+		"activities": [
+			{
+				"name": "Switch for Ingestor",
+				"type": "Switch",
+				"dependsOn": [
+					{
+						"activity": "SP_insert_log_detial_controller_level",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.SourceName",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "azure_sql",
+							"activities": [
+								{
+									"name": "Execute Pipeline1",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "starttime",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "SQL_To_ADLS_Ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"IJ_Source_Name": {
+												"value": "@pipeline().parameters.SourceName",
+												"type": "Expression"
+											},
+											"IJ_Full_Query": {
+												"value": "@pipeline().parameters.Query",
+												"type": "Expression"
+											},
+											"IJ_Table_Name": {
+												"value": "@pipeline().parameters.TableName",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "Set_var_status",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Execute Pipeline1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "status",
+										"value": {
+											"value": "@activity('Execute Pipeline1').output.pipelineReturnValue.status",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "SP_log_schema_Pl_level_update",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "endtime",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[dbo].[SP_log_schema_PL_level_update]",
+										"storedProcedureParameters": {
+											"ADF_pipeline_run_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Databrick_exec_time": {
+												"value": null,
+												"type": "String"
+											},
+											"Databrick_url": {
+												"value": null,
+												"type": "String"
+											},
+											"Dataset_name": {
+												"value": {
+													"value": "@pipeline().parameters.TableName",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"End_date": {
+												"value": {
+													"value": "@formatDateTime(utcnow(),'yyyy-MM-dd')",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"End_time": {
+												"value": {
+													"value": "@variables('endtime')",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"Error_message": {
+												"value": null,
+												"type": "String"
+											},
+											"Fire_command": {
+												"value": null,
+												"type": "String"
+											},
+											"From_layer_id": {
+												"value": null,
+												"type": "Int32"
+											},
+											"Ingestor_name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Landing_file_name": {
+												"value": null,
+												"type": "String"
+											},
+											"Record_count": {
+												"value": null,
+												"type": "Int32"
+											},
+											"Source_name": {
+												"value": {
+													"value": "@pipeline().parameters.SourceName",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Start_date": {
+												"value": {
+													"value": "@formatDateTime(utcnow(),'yyyy-MM-dd')",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"Start_time": {
+												"value": {
+													"value": "@variables('start_time')",
+													"type": "Expression"
+												},
+												"type": "DateTime"
+											},
+											"STATUS": {
+												"value": {
+													"value": "@variables('status')",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"To_layer_id": {
+												"value": null,
+												"type": "Int32"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "SP_LinkedService",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "starttime",
+									"type": "SetVariable",
+									"dependsOn": [],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "start_time",
+										"value": {
+											"value": "@formatDateTime(utcnow(),'yyyy-MM-dd HH:mm:ss')",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "endtime",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set_var_status",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "endtime",
+										"value": {
+											"value": "@utcnow()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "start_time",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "start_time",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "SP_insert_log_detial_controller_level",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "start_time",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[SP_log_schema_PL_level_insert]",
+					"storedProcedureParameters": {
+						"ADF_pipeline_run_id": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Databrick_exec_time": {
+							"value": "",
+							"type": "String"
+						},
+						"Databrick_url": {
+							"value": "",
+							"type": "String"
+						},
+						"Dataset_name": {
+							"value": {
+								"value": "@pipeline().parameters.TableName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"End_date": {
+							"value": null,
+							"type": "DateTime"
+						},
+						"End_time": {
+							"value": null,
+							"type": "DateTime"
+						},
+						"Error_message": {
+							"value": null,
+							"type": "String"
+						},
+						"Fire_command": {
+							"value": null,
+							"type": "String"
+						},
+						"From_layer_id": {
+							"value": null,
+							"type": "Int32"
+						},
+						"Ingestor_name": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Landing_file_name": {
+							"value": null,
+							"type": "String"
+						},
+						"Record_count": {
+							"value": null,
+							"type": "Int32"
+						},
+						"Source_name": {
+							"value": {
+								"value": "@pipeline().parameters.SourceName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Start_date": {
+							"value": {
+								"value": "@variables('start_time')",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"Start_time": {
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						},
+						"STATUS": {
+							"value": null,
+							"type": "String"
+						},
+						"To_layer_id": {
+							"value": null,
+							"type": "Int32"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "SP_LinkedService",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"Query": {
+				"type": "string"
+			},
+			"TableName": {
+				"type": "string"
+			},
+			"SourceName": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"SourceName": {
+				"type": "String"
+			},
+			"status": {
+				"type": "String"
+			},
+			"start_time": {
+				"type": "String"
+			},
+			"endtime": {
+				"type": "String"
+			},
+			"errors": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Version2"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-08-21T11:16:40Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

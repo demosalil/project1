@@ -1,0 +1,58 @@
+{
+	"name": "azuresqlserver_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQLDB_LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "country_id",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "country_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Country_phone_code",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "capital_city",
+				"type": "nvarchar"
+			},
+			{
+				"name": "population",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "official_language",
+				"type": "nvarchar"
+			},
+			{
+				"name": "currency",
+				"type": "nvarchar"
+			},
+			{
+				"name": "area",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "continent",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Country_azuresql"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

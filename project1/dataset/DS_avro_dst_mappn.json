@@ -1,0 +1,90 @@
+{
+	"name": "DS_avro_dst_mappn",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_avro_dst_param",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Avro",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": "blob_to_adlsgen2",
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {
+			"type": "record",
+			"name": "HybridDelivery.ClientLibraryJob",
+			"fields": [
+				{
+					"name": "country_name",
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				{
+					"name": "Country_phone_code",
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				{
+					"name": "capital_city",
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				{
+					"name": "population",
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				{
+					"name": "official_language",
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				{
+					"name": "currency",
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				{
+					"name": "area",
+					"type": [
+						"string",
+						"null"
+					]
+				},
+				{
+					"name": "continent",
+					"type": [
+						"string",
+						"null"
+					]
+				}
+			]
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,388 @@
+{
+	"name": "Ingestion_master",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "SP_Log_Master_Insert",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderStoredProcedureName": "[dbo].[Sp_get_datasets]",
+						"storedProcedureParameters": {
+							"Datagroup": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().parameters.DataGroup",
+									"type": "Expression"
+								}
+							},
+							"source_id": {
+								"type": "Int32",
+								"value": {
+									"value": "@pipeline().parameters.DataSetList",
+									"type": "Expression"
+								}
+							},
+							"source_name": {
+								"type": "String",
+								"value": {
+									"value": "@pipeline().parameters.SourceName",
+									"type": "Expression"
+								}
+							}
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "DS_azuresql_src_lookup",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output.value",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Execute Pipeline1",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "ingestion_controller",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true,
+								"parameters": {
+									"Query": {
+										"value": "@item().full_query",
+										"type": "Expression"
+									},
+									"TableName": {
+										"value": "@item().table_name",
+										"type": "Expression"
+									},
+									"SourceName": {
+										"value": "@item().Source_name",
+										"type": "Expression"
+									},
+									"foldername": {
+										"value": "@item().folder_name",
+										"type": "Expression"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "SP_Log_Master_Insert",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Starttime",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[SP_log_schema_IN]",
+					"storedProcedureParameters": {
+						"ADF_pipeline_run_id": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Datagroup": {
+							"value": {
+								"value": "@pipeline().parameters.Datagroup",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Datasetlist": {
+							"value": null,
+							"type": "String"
+						},
+						"End_time": {
+							"value": "",
+							"type": "String"
+						},
+						"Pipeline_name": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Source_name": {
+							"value": {
+								"value": "@pipeline().parameters.SourceName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Start_time": {
+							"value": {
+								"value": "@{formatDateTime(variables('Start_time'),'yyyy-MM-dd HH:mm:ss')}",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Status": {
+							"value": "",
+							"type": "String"
+						},
+						"Trigger_id": {
+							"value": {
+								"value": "@pipeline().TriggerId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Trigger_name": {
+							"value": {
+								"value": "@pipeline().TriggerName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Trigger_start_Date": {
+							"value": {
+								"value": "@pipeline().TriggerTime",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Ls_trial_sp_log",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SP_Log_Master_update",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Endtime",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[SP_log_schema_Update]",
+					"storedProcedureParameters": {
+						"ADF_pipeline_run_id": {
+							"value": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Datagroup": {
+							"value": {
+								"value": "@pipeline().parameters.Datagroup",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Datasetlist": {
+							"value": {
+								"value": "@pipeline().parameters.DataSetList",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"End_time": {
+							"value": {
+								"value": "@{formatDateTime(variables('End_time'),'yyyy-MM-dd HH:mm:ss')}",
+								"type": "Expression"
+							},
+							"type": "Datetime"
+						},
+						"Pipeline_name": {
+							"value": {
+								"value": "@pipeline().Pipeline",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Source_name": {
+							"value": {
+								"value": "@pipeline().parameters.SourceName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Start_time": {
+							"value": {
+								"value": "@{formatDateTime(variables('Start_time'),'yyyy-MM-dd HH:mm:ss')}",
+								"type": "Expression"
+							},
+							"type": "Datetime"
+						},
+						"Status": {
+							"value": "success",
+							"type": "String"
+						},
+						"Trigger_id": {
+							"value": {
+								"value": "@pipeline().TriggerId",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Trigger_name": {
+							"value": {
+								"value": "@pipeline().TriggerName",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"Trigger_start_Date": {
+							"value": {
+								"value": "@utcnow()",
+								"type": "Expression"
+							},
+							"type": "DateTime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Ls_trial_sp_log",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Starttime",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "Start_time",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Endtime",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ForEach1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "End_time",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"SourceName": {
+				"type": "string"
+			},
+			"DataGroup": {
+				"type": "string"
+			},
+			"DataSetList": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"Start_time": {
+				"type": "String"
+			},
+			"End_time": {
+				"type": "String"
+			},
+			"record_count": {
+				"type": "String"
+			},
+			"filename": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "MAIN_PIPELINE_FOLDLER"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-08-23T06:20:47Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

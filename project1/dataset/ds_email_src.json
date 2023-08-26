@@ -1,0 +1,25 @@
+{
+	"name": "ds_email_src",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_emial_src",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Country_dummy_blob.csv",
+				"folderPath": "blob_src",
+				"container": "rawblob"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

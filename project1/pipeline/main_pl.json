@@ -1,0 +1,56 @@
+{
+	"name": "main_pl",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Ingestion_master",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"SourceName": {
+							"value": "@pipeline().parameters.SourceName",
+							"type": "Expression"
+						},
+						"DataGroup": {
+							"value": "@pipeline().parameters.DataGroup",
+							"type": "Expression"
+						},
+						"DataSetList": {
+							"value": "@pipeline().parameters.DataSetList",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		],
+		"parameters": {
+			"SourceName": {
+				"type": "string"
+			},
+			"DataGroup": {
+				"type": "string"
+			},
+			"DataSetList": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"get_foldername": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "MAIN_PIPELINE_FOLDLER"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-08-18T03:11:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

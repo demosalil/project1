@@ -1,0 +1,22 @@
+{
+	"name": "Ls_mysql_src",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"mysql_Server_name": {
+				"type": "string",
+				"defaultValue": "mysqlproj1.mysql.database.azure.com"
+			},
+			"mysql_dbName": {
+				"type": "string",
+				"defaultValue": "mysqldb"
+			}
+		},
+		"annotations": [],
+		"type": "AzureMySql",
+		"typeProperties": {
+			"connectionString": "server=@{linkedService().mysql_Server_name};port=3306;database=@{linkedService().mysql_dbName};uid=dp900;sslmode=1;usesystemtruststore=0",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDBDNzVFNTNELURCRDMtNDdEOC04MDU0LTVBQ0I3NUQ4MzA5Ql82NDhmYTM1NC1hOGM2LTRlNWEtYmQxYS0xNTc4N2YyYjIzNGQiDQp9"
+		}
+	}
+}

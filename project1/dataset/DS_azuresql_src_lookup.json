@@ -1,0 +1,21 @@
+{
+	"name": "DS_azuresql_src_lookup",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_azuresql_src_param",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "projsqlserver.database.windows.net",
+				"DbName": "metadata_db"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "trail_watermark_table"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

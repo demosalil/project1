@@ -1,0 +1,13 @@
+{
+	"name": "ds_layer_azuresql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_layer_azuresql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

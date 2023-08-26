@@ -1,0 +1,21 @@
+{
+	"name": "json_multitable_ds",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_mappn_src",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "multitable.json",
+				"folderPath": "dsds",
+				"container": "rawblob"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

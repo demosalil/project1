@@ -1,0 +1,116 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_blob_src_mappn",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_avro_dst_mappn",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_avro_dst_mappn",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_avro_dst_mappn",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "exists1"
+				},
+				{
+					"name": "exists2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          country_name as string,",
+				"          Country_phone_code as short,",
+				"          capital_city as string,",
+				"          population as integer,",
+				"          official_language as string,",
+				"          currency as string,",
+				"          area as double,",
+				"          continent as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          country_name as string,",
+				"          Country_phone_code as string,",
+				"          capital_city as string,",
+				"          population as string,",
+				"          official_language as string,",
+				"          currency as string,",
+				"          area as string,",
+				"          continent as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source1, source2 exists(source1@country_name == source2@country_name,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> exists1",
+				"source2, source1 exists(source2@country_name == source1@country_name,",
+				"     negate:false,",
+				"     broadcast: 'auto')~> exists2",
+				"exists1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          country_name as string,",
+				"          Country_phone_code as string,",
+				"          capital_city as string,",
+				"          population as string,",
+				"          official_language as string,",
+				"          currency as string,",
+				"          area as string,",
+				"          continent as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1",
+				"exists2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          country_name as string,",
+				"          Country_phone_code as string,",
+				"          capital_city as string,",
+				"          population as string,",
+				"          official_language as string,",
+				"          currency as string,",
+				"          area as string,",
+				"          continent as string",
+				"     ),",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink2"
+			]
+		}
+	}
+}

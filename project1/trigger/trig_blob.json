@@ -1,0 +1,30 @@
+{
+	"name": "trig_blob",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "main_pl",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"SourceName": "blob_storage",
+					"DataGroup": "Country",
+					"DataSetList": "1"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2023-08-24T10:56:00",
+				"endTime": "2023-08-24T10:58:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

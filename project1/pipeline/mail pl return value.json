@@ -1,0 +1,118 @@
+{
+	"name": "mail pl return value",
+	"properties": {
+		"activities": [
+			{
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "child pl return value",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SP_LinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "insert into demo_return_value values\n('@{activity('Execute Pipeline1').output.pipelineReturnValue.errors}','@{activity('Execute Pipeline1').output.pipelineReturnValue.Status}','@{activity('Execute Pipeline1').output.pipelineReturnValue.end_time}')",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "get_status",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "STATUS",
+					"value": {
+						"value": "@activity('Execute Pipeline1').output.pipelineReturnValue.status",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "endtime",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "End_time",
+					"value": {
+						"value": "@activity('Execute Pipeline1').output.pipelineReturnValue.End_time",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"STATUS": {
+				"type": "String"
+			},
+			"End_time": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "return value folder"
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-08-22T02:15:52Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

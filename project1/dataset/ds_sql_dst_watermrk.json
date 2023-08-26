@@ -1,0 +1,24 @@
+{
+	"name": "ds_sql_dst_watermrk",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_sql_dst_watermrk",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"tablename_ds": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"table": {
+				"value": "@dataset().tablename_ds",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

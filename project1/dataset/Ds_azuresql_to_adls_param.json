@@ -1,0 +1,35 @@
+{
+	"name": "Ds_azuresql_to_adls_param",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_azuresql_src_param",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "projsqlserver.database.windows.net",
+				"DbName": "prosqldb"
+			}
+		},
+		"parameters": {
+			"table_schema": {
+				"type": "string"
+			},
+			"table_name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": {
+				"value": "@dataset().table_schema",
+				"type": "Expression"
+			},
+			"table": {
+				"value": "@dataset().table_name",
+				"type": "Expression"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

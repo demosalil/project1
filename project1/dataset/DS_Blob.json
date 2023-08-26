@@ -1,0 +1,59 @@
+{
+	"name": "DS_Blob",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blob_connectionstring",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Location",
+				"folderPath": "snowflake_to_blob",
+				"container": "rawblob"
+			},
+			"columnDelimiter": ",",
+			"rowDelimiter": "\r",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "country_name",
+				"type": "String"
+			},
+			{
+				"name": "Country_phone_code",
+				"type": "String"
+			},
+			{
+				"name": "capital_city",
+				"type": "String"
+			},
+			{
+				"name": "population",
+				"type": "String"
+			},
+			{
+				"name": "official_language",
+				"type": "String"
+			},
+			{
+				"name": "currency",
+				"type": "String"
+			},
+			{
+				"name": "area",
+				"type": "String"
+			},
+			{
+				"name": "continent",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

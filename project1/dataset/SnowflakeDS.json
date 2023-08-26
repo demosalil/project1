@@ -1,0 +1,54 @@
+{
+	"name": "SnowflakeDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "snowflake_Connectionstring",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SnowflakeTable",
+		"schema": [
+			{
+				"name": "BRAND",
+				"type": "VARCHAR",
+				"precision": 100,
+				"scale": 0
+			},
+			{
+				"name": "LOCATIONID",
+				"type": "VARCHAR",
+				"precision": 100,
+				"scale": 0
+			},
+			{
+				"name": "STREET",
+				"type": "VARCHAR",
+				"precision": 244,
+				"scale": 0
+			},
+			{
+				"name": "CITY",
+				"type": "VARCHAR",
+				"precision": 100,
+				"scale": 0
+			},
+			{
+				"name": "STATE",
+				"type": "VARCHAR",
+				"precision": 100,
+				"scale": 0
+			},
+			{
+				"name": "ZIP",
+				"type": "VARCHAR",
+				"precision": 20,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "DBO",
+			"table": "LOCATION"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
