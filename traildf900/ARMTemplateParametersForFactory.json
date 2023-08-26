@@ -1,0 +1,99 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "traildf900"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorageldsss_connectionString": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_connectionString": {
+			"value": ""
+		},
+		"LS_ftp_src_password": {
+			"value": ""
+		},
+		"Ls_avro_dst_param_accountKey": {
+			"value": ""
+		},
+		"Ls_azuresql_src_param_connectionString": {
+			"value": ""
+		},
+		"Ls_blob_restapi_dst_connectionString": {
+			"value": ""
+		},
+		"Ls_emial_src_connectionString": {
+			"value": ""
+		},
+		"Ls_layer_azuresql_connectionString": {
+			"value": ""
+		},
+		"Ls_mappn_src_connectionString": {
+			"value": ""
+		},
+		"Ls_mysql_src_connectionString": {
+			"value": ""
+		},
+		"Ls_sql_dst_watermrk_connectionString": {
+			"value": ""
+		},
+		"Ls_trial_sp_log_connectionString": {
+			"value": ""
+		},
+		"SP_LinkedService_connectionString": {
+			"value": ""
+		},
+		"SQLDB_LS_connectionString": {
+			"value": ""
+		},
+		"SQL_TO_ADLS_LS_accountKey": {
+			"value": ""
+		},
+		"snowflake_Connectionstring_connectionString": {
+			"value": ""
+		},
+		"LS_ftp_src_properties_typeProperties_host": {
+			"value": "ftpupload.net"
+		},
+		"LS_ftp_src_properties_typeProperties_userName": {
+			"value": "if0_34491274"
+		},
+		"Ls_avro_dst_param_properties_typeProperties_url": {
+			"value": "https://adlsproj1.dfs.core.windows.net/"
+		},
+		"Ls_restapi_src_properties_typeProperties_url": {
+			"value": "https://reqres.in/api/users"
+		},
+		"SQL_TO_ADLS_LS_properties_typeProperties_url": {
+			"value": "https://traillandingzone.dfs.core.windows.net/"
+		},
+		"blob_connectionstring_sasUri": {
+			"value": ""
+		},
+		"trig_azuresql_properties_main_pl_parameters_SourceName": {
+			"value": "azure_sql"
+		},
+		"trig_azuresql_properties_main_pl_parameters_DataGroup": {
+			"value": "Crime"
+		},
+		"trig_azuresql_properties_main_pl_parameters_DataSetList": {
+			"value": "2"
+		},
+		"trig_blob_properties_main_pl_parameters_SourceName": {
+			"value": "blob_storage"
+		},
+		"trig_blob_properties_main_pl_parameters_DataGroup": {
+			"value": "Country"
+		},
+		"trig_blob_properties_main_pl_parameters_DataSetList": {
+			"value": "1"
+		},
+		"trigger1_properties_azuresql_to_adlsgen2_parameters_Sink_foldername": {
+			"value": "azuresql_to_adlsgen2"
+		}
+	}
+}
