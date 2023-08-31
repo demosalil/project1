@@ -1,0 +1,9 @@
+{
+	"name": "traildf-900",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "baf3458a-beb9-49e5-b31c-e597aa091b54",
+		"tenantId": "fd553886-eca5-409a-b7a8-fdeb6d686335"
+	}
+}
