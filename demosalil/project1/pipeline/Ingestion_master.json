@@ -1,0 +1,20 @@
+{
+	"name": "Ingestion_master",
+	"properties": {
+		"activities": [
+			{
+				"name": "Wait1",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			}
+		],
+		"folder": {
+			"name": "MAIN_PIPELINE_FOLDLER"
+		},
+		"annotations": []
+	}
+}
