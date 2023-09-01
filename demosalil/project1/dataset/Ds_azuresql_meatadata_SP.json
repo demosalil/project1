@@ -1,0 +1,12 @@
+{
+	"name": "Ds_azuresql_meatadata_SP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_azuresql_src_SP",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
