@@ -87,7 +87,25 @@
 									"referenceName": "ingestion_controller",
 									"type": "PipelineReference"
 								},
-								"waitOnCompletion": true
+								"waitOnCompletion": true,
+								"parameters": {
+									"Query": {
+										"value": "@item().full_query",
+										"type": "Expression"
+									},
+									"TableName": {
+										"value": "@item().table_name",
+										"type": "Expression"
+									},
+									"SourceName": {
+										"value": "@item().Source_name",
+										"type": "Expression"
+									},
+									"foldername": {
+										"value": "@item().folder_name",
+										"type": "Expression"
+									}
+								}
 							}
 						}
 					]
@@ -134,7 +152,7 @@
 							"type": "String"
 						},
 						"End_time": {
-							"value": "",
+							"value": null,
 							"type": "DateTime"
 						},
 						"Pipeline_name": {
@@ -152,10 +170,7 @@
 							"type": "String"
 						},
 						"Start_time": {
-							"value": {
-								"value": "@{formatDateTime(variables('Start_time'),'yyyy-MM-dd HH:mm:ss')}",
-								"type": "Expression"
-							},
+							"value": null,
 							"type": "DateTime"
 						},
 						"Status": {
@@ -238,7 +253,7 @@
 					{
 						"activity": "Endtime",
 						"dependencyConditions": [
-							"Succeeded"
+							"Completed"
 						]
 					}
 				],
