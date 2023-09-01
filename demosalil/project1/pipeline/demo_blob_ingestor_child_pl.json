@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "Ds_blob_src",
+						"referenceName": "DS_getmeta_src",
 						"type": "DatasetReference"
 					},
 					"fieldList": [
@@ -67,7 +67,7 @@
 									"type": "DelimitedTextSource",
 									"storeSettings": {
 										"type": "AzureBlobStorageReadSettings",
-										"recursive": true,
+										"recursive": false,
 										"wildcardFolderPath": {
 											"value": "@pipeline().parameters.foldername",
 											"type": "Expression"
@@ -101,7 +101,13 @@
 							"inputs": [
 								{
 									"referenceName": "Ds_blob_src",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"filename": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							],
 							"outputs": [

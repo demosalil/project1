@@ -20,34 +20,11 @@
 				}
 			},
 			{
-				"name": "filename",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"policy": {
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "filename",
-					"value": {
-						"value": "@pipeline().parameters.TableName",
-						"type": "Expression"
-					}
-				}
-			},
-			{
 				"name": "SP_insert_log_detial_controller_level",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
 						"activity": "Starttime",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					},
-					{
-						"activity": "filename",
 						"dependencyConditions": [
 							"Succeeded"
 						]

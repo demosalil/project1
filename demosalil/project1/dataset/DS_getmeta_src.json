@@ -1,24 +1,15 @@
 {
-	"name": "Ds_blob_src",
+	"name": "DS_getmeta_src",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Ls_blob_src",
 			"type": "LinkedServiceReference"
-		},
-		"parameters": {
-			"filename": {
-				"type": "string"
-			}
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().filename",
-					"type": "Expression"
-				},
 				"folderPath": "blob_src",
 				"container": "rawblob"
 			},
