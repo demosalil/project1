@@ -411,7 +411,242 @@
 							]
 						},
 						{
-							"value": "azure_sql"
+							"value": "azure_sql",
+							"activities": [
+								{
+									"name": "Exec_azuresql",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "SQL_To_ADLS_Ingestor",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {
+											"IJ_Source_Name": {
+												"value": "@pipeline().parameters.SourceName",
+												"type": "Expression"
+											},
+											"IJ_Full_Query": {
+												"value": "@pipeline().parameters.Query",
+												"type": "Expression"
+											},
+											"IJ_Table_Name": {
+												"value": "@pipeline().parameters.TableName",
+												"type": "Expression"
+											},
+											"Targetfilename": {
+												"value": "@variables('filename')",
+												"type": "Expression"
+											}
+										}
+									}
+								},
+								{
+									"name": "get_status",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Exec_azuresql",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "status",
+										"value": {
+											"value": "@activity('Exec_azuresql').output.pipelineReturnValue.status",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "get_error",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Exec_azuresql",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "errors",
+										"value": {
+											"value": "@string(activity('Exec_azuresql').output.pipelineReturnValue.errors)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "get record_count",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Exec_azuresql",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "record_count",
+										"value": {
+											"value": "@string(activity('Exec_azuresql').output.pipelineReturnValue.filesWritten)",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "SP_update_log_detial_controller_level",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [
+										{
+											"activity": "get record_count",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										},
+										{
+											"activity": "get_status",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										},
+										{
+											"activity": "get_error",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[dbo].[SP_log_schema_PL_level_update]",
+										"storedProcedureParameters": {
+											"ADF_pipeline_run_id": {
+												"value": {
+													"value": "@pipeline().RunId",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Databrick_exec_time": {
+												"value": null,
+												"type": "String"
+											},
+											"Databrick_url": {
+												"value": null,
+												"type": "String"
+											},
+											"Dataset_name": {
+												"value": {
+													"value": "@pipeline().parameters.TableName",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"End_date": {
+												"value": null,
+												"type": "DateTime"
+											},
+											"End_time": {
+												"value": null,
+												"type": "DateTime"
+											},
+											"Error_message": {
+												"value": {
+													"value": "@variables('errors')",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Fire_command": {
+												"value": null,
+												"type": "String"
+											},
+											"From_layer_id": {
+												"value": "1",
+												"type": "Int32"
+											},
+											"Ingestor_name": {
+												"value": {
+													"value": "@pipeline().Pipeline",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Landing_file_name": {
+												"value": null,
+												"type": "String"
+											},
+											"Record_count": {
+												"value": {
+													"value": "@activity('Exec_azuresql').output.pipelineReturnValue.filesWritten",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											},
+											"Source_name": {
+												"value": {
+													"value": "@pipeline().parameters.SourceName",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"Start_date": {
+												"value": null,
+												"type": "DateTime"
+											},
+											"Start_time": {
+												"value": null,
+												"type": "DateTime"
+											},
+											"STATUS": {
+												"value": {
+													"value": "@variables('status')",
+													"type": "Expression"
+												},
+												"type": "String"
+											},
+											"To_layer_id": {
+												"value": "2",
+												"type": "Int32"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "Ls_azuresql_src_SP",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
 						}
 					]
 				}
