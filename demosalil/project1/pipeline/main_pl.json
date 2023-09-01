@@ -3,15 +3,49 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Wait1",
-				"type": "Wait",
+				"name": "Execute Pipeline1",
+				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 1
+					"pipeline": {
+						"referenceName": "Ingestion_master",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"SourceName": {
+							"value": "@pipeline().parameters.SourceName",
+							"type": "Expression"
+						},
+						"DataGroup": {
+							"value": "@pipeline().parameters.DataGroup",
+							"type": "Expression"
+						},
+						"DataSetList": {
+							"value": "@pipeline().parameters.DataSetList",
+							"type": "Expression"
+						}
+					}
 				}
 			}
 		],
+		"parameters": {
+			"SourceName": {
+				"type": "string"
+			},
+			"DataGroup": {
+				"type": "string"
+			},
+			"DataSetList": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"get_foldername": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "MAIN_PIPELINE_FOLDLER"
 		},
