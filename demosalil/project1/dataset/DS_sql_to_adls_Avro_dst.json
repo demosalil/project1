@@ -1,0 +1,28 @@
+{
+	"name": "DS_sql_to_adls_Avro_dst",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_adls_dst",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Avro",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": "azuresql_to_adlsgen2",
+				"fileSystem": "adlsraw"
+			}
+		},
+		"schema": {}
+	}
+}

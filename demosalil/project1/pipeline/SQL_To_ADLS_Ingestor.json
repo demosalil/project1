@@ -3,15 +3,132 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Wait1",
-				"type": "Wait",
+				"name": "Copy data1",
+				"type": "Copy",
 				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"userProperties": [],
 				"typeProperties": {
-					"waitTimeInSeconds": 1
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "@pipeline().parameters.IJ_Full_Query",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AvroSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "AvroWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "azuresqlserver_ds",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_sql_to_adls_Avro_dst",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": {
+								"value": "@concat(pipeline().parameters.IJ_Table_Name,' ',formatDateTime(utcnow(),'yyyy-MM-dd'))",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "get_error_status",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "pipelineReturnValue",
+					"value": [
+						{
+							"key": "status",
+							"value": {
+								"type": "Expression",
+								"content": "@activity('Copy data1').output.executionDetails[0].status"
+							}
+						},
+						{
+							"key": "errors",
+							"value": {
+								"type": "Expression",
+								"content": "@activity('Copy data1').output.errors"
+							}
+						},
+						{
+							"key": "filesWritten",
+							"value": {
+								"type": "Expression",
+								"content": "@activity('Copy data1').output.filesWritten"
+							}
+						}
+					],
+					"setSystemVariable": true
 				}
 			}
 		],
+		"parameters": {
+			"IJ_Source_Name": {
+				"type": "string"
+			},
+			"IJ_Full_Query": {
+				"type": "string"
+			},
+			"IJ_Table_Name": {
+				"type": "string"
+			},
+			"Targetfilename": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"SourceName": {
+				"type": "String"
+			},
+			"errors": {
+				"type": "String"
+			}
+		},
 		"folder": {
 			"name": "MAIN_PIPELINE_FOLDLER"
 		},
