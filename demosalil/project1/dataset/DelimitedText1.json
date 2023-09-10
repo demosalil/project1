@@ -1,0 +1,65 @@
+{
+	"name": "DelimitedText1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_blob_src",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Book1.csv",
+				"folderPath": "blob_src",
+				"container": "rawblob"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "patient_id",
+				"type": "String"
+			},
+			{
+				"name": "patient_name",
+				"type": "String"
+			},
+			{
+				"name": "patient_age",
+				"type": "String"
+			},
+			{
+				"name": "patient_gender",
+				"type": "String"
+			},
+			{
+				"name": "admission_date",
+				"type": "String"
+			},
+			{
+				"name": "discharge_date",
+				"type": "String"
+			},
+			{
+				"name": "diagnosis",
+				"type": "String"
+			},
+			{
+				"name": "treatment",
+				"type": "String"
+			},
+			{
+				"name": "doctor_name",
+				"type": "String"
+			},
+			{
+				"name": "hospital_name",
+				"type": "String"
+			}
+		]
+	}
+}
