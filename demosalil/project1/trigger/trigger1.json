@@ -1,0 +1,32 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"description": "cxc",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "ckeck pointadf",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "ckeck pointadf",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 15,
+				"startTime": "2023-09-18T21:40:00",
+				"endTime": "2023-09-18T21:41:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}
