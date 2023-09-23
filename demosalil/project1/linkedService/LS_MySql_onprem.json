@@ -1,0 +1,16 @@
+{
+	"name": "LS_MySql_onprem",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureMySql",
+		"typeProperties": {
+			"connectionString": "server=my-sql-server.mysql.database.azure.com;port=3306;database=test_db;uid=dp900;sslmode=1;usesystemtruststore=0",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlZTdlYTdlYi00NzgzLTQ4OGYtOTgwNy0yODg2ODQyZGRhYmUiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "mysqlonprem",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
