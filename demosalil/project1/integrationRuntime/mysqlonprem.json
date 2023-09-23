@@ -1,0 +1,6 @@
+{
+	"name": "mysqlonprem",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
