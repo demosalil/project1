@@ -1,5 +1,13 @@
 {
 	"name": "traildf-900",
+	"properties": {
+		"globalParameters": {
+			"Container_name": {
+				"type": "string",
+				"value": "blob_src"
+			}
+		}
+	},
 	"location": "eastus",
 	"identity": {
 		"type": "SystemAssigned",
