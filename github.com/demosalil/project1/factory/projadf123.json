@@ -1,0 +1,9 @@
+{
+	"name": "projadf123",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "b0f3b822-6c05-43b1-a893-159027707686",
+		"tenantId": "48cdf7e6-bbad-4fc3-a097-ced0e0066ba0"
+	}
+}
