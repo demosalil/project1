@@ -1,0 +1,85 @@
+{
+	"name": "ds_blob_copy_Src",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Ls_blob_src",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().Filename",
+					"type": "Expression"
+				},
+				"folderPath": "blob_src",
+				"container": "blobcontainer"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "product_id",
+				"type": "String"
+			},
+			{
+				"name": "store_id",
+				"type": "String"
+			},
+			{
+				"name": "date",
+				"type": "String"
+			},
+			{
+				"name": "sales",
+				"type": "String"
+			},
+			{
+				"name": "revenue",
+				"type": "String"
+			},
+			{
+				"name": "stock",
+				"type": "String"
+			},
+			{
+				"name": "price",
+				"type": "String"
+			},
+			{
+				"name": "promo_type_1",
+				"type": "String"
+			},
+			{
+				"name": "promo_bin_1",
+				"type": "String"
+			},
+			{
+				"name": "promo_type_2",
+				"type": "String"
+			},
+			{
+				"name": "promo_bin_2",
+				"type": "String"
+			},
+			{
+				"name": "promo_discount_2",
+				"type": "String"
+			},
+			{
+				"name": "promo_discount_type_2",
+				"type": "String"
+			}
+		]
+	}
+}
