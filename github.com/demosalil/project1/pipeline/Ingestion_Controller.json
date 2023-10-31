@@ -45,7 +45,26 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"cases": []
+					"cases": [
+						{
+							"value": "Blob_storage",
+							"activities": [
+								{
+									"name": "call_sql_to_adls_pl",
+									"type": "ExecutePipeline",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "sql_to_adls",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true
+									}
+								}
+							]
+						}
+					]
 				}
 			}
 		],
