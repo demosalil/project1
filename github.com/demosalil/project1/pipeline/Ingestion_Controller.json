@@ -60,7 +60,7 @@
 									"userProperties": [],
 									"typeProperties": {
 										"pipeline": {
-											"referenceName": "sql_to_adls",
+											"referenceName": "blob_to_adls123",
 											"type": "PipelineReference"
 										},
 										"waitOnCompletion": true

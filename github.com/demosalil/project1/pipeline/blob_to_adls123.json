@@ -1,5 +1,5 @@
 {
-	"name": "sql_to_adls",
+	"name": "blob_to_adls123",
 	"properties": {
 		"activities": [
 			{
