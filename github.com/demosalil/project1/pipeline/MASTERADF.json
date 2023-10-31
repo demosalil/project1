@@ -16,6 +16,17 @@
 				}
 			}
 		],
+		"parameters": {
+			"Sourcename": {
+				"type": "string"
+			},
+			"Datagroupname": {
+				"type": "string"
+			},
+			"datasetlist": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
