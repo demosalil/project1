@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Execute Pipeline1",
+				"name": "Call_ingstion_master",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"userProperties": [],
