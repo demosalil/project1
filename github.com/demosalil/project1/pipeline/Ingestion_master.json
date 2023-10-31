@@ -73,6 +73,10 @@
 							"dependsOn": [],
 							"userProperties": [],
 							"typeProperties": {
+								"pipeline": {
+									"referenceName": "Ingestion_Controller",
+									"type": "PipelineReference"
+								},
 								"waitOnCompletion": true
 							}
 						}
