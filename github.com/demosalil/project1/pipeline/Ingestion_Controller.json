@@ -45,6 +45,10 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"on": {
+						"value": "Sourcename",
+						"type": "Expression"
+					},
 					"cases": [
 						{
 							"value": "Blob_storage",
@@ -63,6 +67,12 @@
 									}
 								}
 							]
+						},
+						{
+							"value": "Mysql_pipeline"
+						},
+						{
+							"value": "Case3"
 						}
 					]
 				}

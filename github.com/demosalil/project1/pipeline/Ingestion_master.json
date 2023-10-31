@@ -13,7 +13,7 @@
 				"userProperties": []
 			},
 			{
-				"name": "Stored procedure1",
+				"name": "Stored procedure1_loggmaster",
 				"type": "SqlServerStoredProcedure",
 				"dependsOn": [
 					{
@@ -37,7 +37,7 @@
 				"type": "Lookup",
 				"dependsOn": [
 					{
-						"activity": "Stored procedure1",
+						"activity": "Stored procedure1_loggmaster",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -50,7 +50,24 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": []
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"dataset": {
+						"referenceName": "Ds_sql_sink",
+						"type": "DatasetReference"
+					}
+				}
 			},
 			{
 				"name": "ForEach1",
@@ -65,7 +82,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"isSequential": false,
+					"isSequential": true,
 					"activities": [
 						{
 							"name": "call_ingestion_controller",
